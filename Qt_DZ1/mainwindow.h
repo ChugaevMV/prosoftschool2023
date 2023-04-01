@@ -19,7 +19,7 @@ public:
 
     QWidget *window;
 
-    QRandomGenerator *rg = QRandomGenerator::global();
+    //QRandomGenerator *rg = QRandomGenerator::global();
 
 
 };
