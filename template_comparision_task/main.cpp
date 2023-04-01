@@ -1,21 +1,11 @@
-#include <iostream>
+#include "mainwindow.h"
 
-#include "test_runner.h"
+#include <QApplication>
 
-#include "first_task.h"
-#include "test.h"
-
-#include "second_task.h"
-
-using namespace std;
-
-int main()
+int main(int argc, char *argv[])
 {
-    TestRunner tr;
-
-    RUN_TEST(tr, Test_first_task);
-
-    RUN_TEST(tr, Test_second_task);
-
-    return 0;
+    QApplication a(argc, argv);
+    MainWindow w;
+    //w.show();
+    return a.exec();
 }
