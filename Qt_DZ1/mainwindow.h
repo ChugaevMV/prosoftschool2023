@@ -19,8 +19,5 @@ public:
 
     QWidget *window;
 
-    //QRandomGenerator *rg = QRandomGenerator::global();
-
-
 };
 #endif // MAINWINDOW_H
