@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer *timer = new QTimer(this);
 
+    QRandomGenerator *rg = QRandomGenerator::global();
+
     int snow_interval = rg->bounded(100,1000);
 
     timer->start(snow_interval);
@@ -17,8 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     auto button_new = [=]()
     {
-        int x = rg->bounded(window->frameGeometry().width()-35);
-        int y = rg->bounded(100);
+        QRandomGenerator *rg1 = QRandomGenerator::global();
+
+        int x = rg1->bounded(window->frameGeometry().width()-35);
+        int y = rg1->bounded(100);
 
         QPushButton *button = new QPushButton("*",window);
 
@@ -32,7 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
 
         QTimer *timer_ForButton = new QTimer (this);
 
-        int speed = rg->bounded(250,400);
+        QRandomGenerator *rg2 = QRandomGenerator::global();
+
+        int speed = rg2->bounded(300,400);
 
         timer_ForButton->start(speed);
 
@@ -49,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 
         //----------------------------------------------------------
 
-        auto move_button = [=] () mutable
+        auto move_button = [=] ()
         {
             int y_button, x_button;
 
@@ -57,9 +63,8 @@ MainWindow::MainWindow(QWidget *parent)
 
             if(((cursor.x() > button->x())&&(cursor.x() < button->x()+30)) && ((cursor.y() > button->y())&&(cursor.y() < button->y()+30)))
             {
-                int speed1 = speed / 2;
 
-                timer_ForButton->start(speed1);
+                timer_ForButton->start(speed/2);
             }
             else
             {
