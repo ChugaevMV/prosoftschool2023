@@ -17,7 +17,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QWidget *window;
+    QWidget *window = nullptr;
 
 };
 #endif // MAINWINDOW_H
