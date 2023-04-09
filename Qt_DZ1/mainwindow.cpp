@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer *timer = new QTimer(this);
 
-    QRandomGenerator *rg = QRandomGenerator::global();
+    QRandomGenerator rg;
 
-    int snow_interval = rg->bounded(100,1000);
+    int snow_interval = rg.global()->bounded(100,1000);
 
     timer->start(snow_interval);
 
@@ -17,12 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     //-------------------------------------------
 
-    auto button_new = [=]()
+    auto button_new = [this,&snow_interval]()
     {
-        QRandomGenerator *rg1 = QRandomGenerator::global();
+        QRandomGenerator rg1;
 
-        int x = rg1->bounded(window->frameGeometry().width()-35);
-        int y = rg1->bounded(100);
+        int x = rg1.global()->bounded(window->frameGeometry().width()-35);
+        int y = rg1.global()->bounded(100);
 
         QPushButton *button = new QPushButton("*",window);
 
@@ -36,54 +36,34 @@ MainWindow::MainWindow(QWidget *parent)
 
         QTimer *timer_ForButton = new QTimer (this);
 
-        QRandomGenerator *rg2 = QRandomGenerator::global();
+        QRandomGenerator rg2;
 
-        int speed = rg2->bounded(300,400);
+        int speed = rg2.global()->bounded(300,400);
 
         timer_ForButton->start(speed);
 
-        //--------------------------------------
+        //----------------------------------------------------------
 
-        auto delete_button = [=] ()
-        {
-            delete button;
-        };
+        connect(button, &QPushButton::clicked,button,[button](){
+            button->deleteLater();
+        });
 
         //----------------------------------------------------------
 
-        connect(button, &QPushButton::clicked,button,delete_button);
-
-        //----------------------------------------------------------
-
-        auto move_button = [=] ()
+        auto move_button = [this, button] ()
         {
-            int y_button, x_button;
-
-            QPoint cursor = window->mapFromGlobal(QCursor::pos());
-
-            if(((cursor.x() > button->x())&&(cursor.x() < button->x()+30)) && ((cursor.y() > button->y())&&(cursor.y() < button->y()+30)))
-            {
-
-                timer_ForButton->start(speed/2);
-            }
-            else
-            {
-                timer_ForButton->start(speed);
-            }
-
+            int speed_button = button->underMouse() ? 20 : 10;
 
           if(button->y()+60 >= window->frameGeometry().height())
           {
               window->setWindowTitle("You LOOSE!!!");
               window->setStyleSheet("background-color: red");
 
+              button->deleteLater();
           }
           else
           {
-              y_button = button->y()+10;
-              x_button = button->x();
-
-              button->move(x_button,y_button);
+              button->move(button->x(),button->y()+speed_button);
           }
         };
 
@@ -105,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
+    window->deleteLater();
 }
 
 
