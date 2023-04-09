@@ -6,8 +6,8 @@
 #include <QTimer>
 #include <QPushButton>
 #include <QRandomGenerator>
-#include <QWidget>
-#include <QObject>
+//#include <QWidget>
+//#include <QObject>
 
 class MainWindow : public QMainWindow
 {
